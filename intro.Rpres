@@ -1,0 +1,595 @@
+Introduction to R
+========================================================
+author: İsmail SEZEN
+date: `r Sys.Date()`
+width: 1440
+height: 1280
+
+Need Help?
+========================================================
+
+- [An introduction to R](http://cran.us.r-project.org/doc/manuals/R-intro.pdf) (Book)
+- [Ask to google](google.com) (Best)
+- [R-help maling list](https://www.r-project.org/mail.html)
+  - [Subscribe](https://stat.ethz.ch/mailman/listinfo/r-help)
+  - [How to ask a good question?](https://www.r-project.org/posting-guide.html)
+  - Do NOT ask for your homework!
+
+How to get help from R?
+```
+help.start()
+help(lm)
+?lm
+example(lm)
+?help
+```
+
+Preliminary
+========================================================
+R commands;
+
+- are Case Sensitive
+- can be separated either by a semi-colon (‘;’), or by a newline.
+- Hashmark (‘#’) means _Comment_ (is it required? _absolutely YES_)
+
+```{r code1, eval = F}
+```
+
+```{r code1, echo = F, warning = F, message = F}
+# this is a comment
+A = 5; a = 10 # R is case sensitive
+print(paste("A is", A))
+print(paste("a is", a))
+cat("A and a are equal? = ", A == a)
+cat("My name is", Sys.info()["user"])
+```
+
+### SEE ALSO
+```{r, eval = F}
+?print; ?paste; ?cat
+```
+
+Data permanency and removing objects
+========================================================
+
+The entities that R creates and manipulates are known as _objects_.
+
+**Object:** variables, arrays of numbers, character strings, functions or
+more general structures built from such components
+
+```{r code2}
+ls() # list objects in the current session
+rm(a) # remove object named a
+ls() # list again to see what we have
+print(A) # print a to the console
+```
+
+If you indicate that you want to do this, the objects are written to a file
+called **.RData** in the current directory, and the command lines used in
+the session are saved to a file called **.Rhistory**.
+
+
+### SEE ALSO
+```{r, eval = F}
+?ls; ?rm
+```
+
+Simple Manipulations
+========================================================
+
+## Assignment
+
+Use always `->` or `<-` symbol combination if you intend to an assignment
+
+```{r code3}
+# Assignment
+x <- c(10.4, 5.6, 3.1, 6.4, 21.7)
+assign("x", c(10.4, 5.6, 3.1, 6.4, 21.7))
+c(10.4, 5.6, 3.1, 6.4, 21.7) -> x
+y <- c(x, 0, x) # c is abbreviation for combine
+print(y)
+1/x
+```
+
+### SEE ALSO
+```{r, eval = F}
+?c; ?assign
+```
+
+Simple Manipulations
+========================================================
+
+## Vector arithmetic
+
+The elementary arithmetic operators: **+**, **-**,_*_, **/** and **^**
+
+```{r code4, eval = F}
+x ^ 2 # take the square
+sqrt(y) # square root
+x/y
+v <- 2*x + y + 1
+length(v) # what is the length of v? why?
+```
+
+Shorter vectors in the expression are recycled as often as need be
+(perhaps fractionally) until they match the length of the longest vector.
+
+### SEE ALSO
+```{r, eval = F}
+??"arithmetic operations"; ?log; ?exp; ?sin; ?cos; ?tan; ?sqrt
+```
+
+Simple Manipulations
+========================================================
+
+## Vector arithmetic
+
+anything else? (max, min, sum, mean, var, std)
+
+```{r code5, eval = F}
+sum(x) # sum of values in x vector
+sum(x)/length(x) # calculate mean
+mean(x) # easier mean calculation
+min(x); max(x)
+```
+
+### SEE ALSO
+
+```{r, eval = F}
+?var; ?std; ?range; ?sort; ?order; ?mean; ?sum; ?summary; ?abs
+```
+
+Simple Manipulations
+========================================================
+
+## Generate regular sequences
+
+```{r}
+5:17
+```
+
+```{r code6, eval = F}
+seq(-5, 5, by = 0.2)
+seq(length = 51, from = -5, by = 0.2)
+```
+
+```{r, echo = F, warning = F, message = F}
+seq(-5, 5, by = .2)
+```
+
+### SEE ALSO
+
+```{r, eval = F}
+?seq
+```
+
+Simple Manipulations
+========================================================
+
+## Repeat an object
+
+```{r code7, eval = F}
+rep(x, times = 5)
+rep(x, each = 5)
+```
+
+```{r code7, echo = F, warning = F, message = F}
+```
+
+### SEE ALSO
+
+```{r, eval = F}
+?rep
+```
+
+
+Simple Manipulations
+========================================================
+
+## Logical Vectors
+
+The elements of a logical vector can have the values TRUE, FALSE, and NA
+(for “not available”). Always use **TRUE** and **FALSE**.
+
+```{r code8, eval = F}
+5 > 10
+x > 13
+as.numeric(x > 13)
+```
+
+```{r code8, echo = F, warning = F, message = F}
+```
+
+### SEE ALSO
+
+```{r, eval = F}
+?"Comparison"
+```
+
+Simple Manipulations
+========================================================
+
+## Missing Values
+
+When an element or value is “not available” or a “missing value” in the
+statistical sense, a place within a vector may be reserved for it by assigning
+it the special value NA.
+
+```{r}
+z <- c(1:3, NA) # a vector contains an NA
+is.na(z) # which element(s) of z is NA?
+z == NA # wrong way!
+0/0 # meaningless
+```
+
+is.na(xx) is TRUE both for NA and NaN
+
+### SEE ALSO
+
+```{r, eval = F}
+?is.na; ?is.finite
+```
+
+Simple Manipulations
+========================================================
+
+## Character vectors
+
+they are denoted by a sequence of characters delimited by the double quote
+character
+
+```{r}
+labs <- paste(c("X","Y"), 1:10, sep="")
+print(labs)
+```
+
+
+### SEE ALSO
+
+```{r, eval = F}
+?paste; ?paste0
+```
+
+Simple Manipulations
+========================================================
+
+## Indexing, selecting and modifying
+
+```{r}
+x[3] <- NA # set 3th element of x to NA
+print(x)
+!is.na(x) # The ones that are not NA
+non_na_x <- x[!is.na(x)] #non-NA values of x
+print(non_na_x)
+```
+
+
+### SEE ALSO
+
+```{r, eval = F}
+?`[[`
+```
+
+Simple Manipulations
+========================================================
+
+## Indexing, selecting and modifying
+
+```{r}
+# create a random integer array to
+# represent month
+set.seed(2)
+month <- round(runif(30, 1, 12))
+(char_month <- month.abb[month]) # get month names
+which(char_month == "Jun") # Which are June?
+which(month == 6) # same as above
+```
+
+
+### SEE ALSO
+
+```{r, eval = F}
+?set.seed; ?runif; ?round; ?which; ?which.max; ?which.min
+```
+
+Simple Manipulations
+========================================================
+
+## Indexing, selecting and modifying
+
+```{r}
+(char_month[1:12]) # select first 12 months
+(char_month[-(1:20)]) # exclude first 20
+# exclude June from vector
+(char_month[-which(month == 6)])
+```
+
+
+Simple Manipulations
+========================================================
+
+## Indexing, selecting and modifying
+
+```{r}
+# use months and month names together
+# set names of month
+names(month) <- char_month
+print(month)
+(month[(month == 6)])
+```
+
+
+### SEE ALSO
+
+```{r, eval = F}
+?names; ?colnames; ?rownames
+```
+
+Simple Manipulations
+========================================================
+
+## Other types of objects
+
+- Matrices
+- factors
+- lists
+- Data frames (same as matrix but columns can be of different types)
+
+```{r}
+# also try byrow = TRUE.
+(m <- matrix(1:20, nrow = 5, ncol = 4))
+```
+
+
+### SEE ALSO
+
+```{r, eval = F}
+?matrix; ?factor; ?list; ?data.frame
+```
+
+Objects
+========================================================
+
+## Everything is an _object_ in R.
+
+- Atomic objects are all of the same type. (numeric, complex, logical, character ...)
+
+```{r}
+(z <- 0:9)
+(digits <- as.character(z))
+```
+
+### SEE ALSO
+
+```{r, eval = F}
+?as.numeric; ?as.character; ?as.logical; ?as.matrix
+```
+
+
+Objects
+========================================================
+
+## Everything is an _object_ in R.
+
+- Other high level objects (matrix, data.frame, list ...)
+
+```{r}
+digit <- 0:9
+name <- c("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+df <- data.frame(digit, name)
+head(df)
+str(df)
+```
+
+
+### SEE ALSO
+
+```{r, eval = F}
+?str; ? head; ?tail
+```
+
+Factors
+========================================================
+
+A factor is a vector object used to specify a discrete classification
+(grouping) of the components of other vectors of the same length.
+R provides both ordered and unordered factors.
+
+```{r}
+options(digits = 3) # print only 3 digits
+set.seed(1) # fixed randomization for rnorm
+# simulate pm10 distribution
+pm10 <- 10 ^ rnorm(100, 1.6, 0.27)
+pm10 <- pm10[pm10 > 40] # higher values than 40 ug/m^3
+set.seed(1) # fixed randomization for sample
+regions <- c("mar", "ege", "kdz", "ica", "akd", "dga", "gda")
+sta <- factor(sample(1:length(regions), length(pm10), replace = T))
+levels(sta) <- regions
+head(data.frame(sta, pm10))
+tapply(pm10, sta, mean) # means by region
+```
+
+
+### SEE ALSO
+
+```{r, eval = F}
+?options; ?set.seed; ?runif; ?rnorm; ?sample; ?round; ?levels; ?tapply
+```
+
+Arrays
+========================================================
+
+- Vectors are one dimensional
+- Matrices and data frames are two dimensional
+- Arrays can hold more dimensions.
+- Arrays can be consist of single type of data as matrices
+- Indexing: array[row, column, ...]
+
+```{r}
+arr3d <- array(1:24, dim = c(4, 3, 2),
+                dimnames = list(
+                  c("one", "two", "three", "four"),
+                  c("ein", "zwei", "drei"),
+                  c("un", "deux")))
+mat <- matrix(1:12, nrow = 4, byrow = TRUE,
+              dimnames = list(
+                c("one", "two", "three", "four"),
+                c("ein", "zwei", "drei")))
+
+```
+
+```{r, eval = F}
+class(arr3d); class(mat) # class of object
+length(arr3d); length(mat) # length of object
+dim(arr3d); dim(mat) # dimensions
+nrow(arr3d); nrow(mat) # number of rows
+ncol(arr3d); ncol(mat) # number of columns
+rownames(arr3d); rownames(mat)
+colnames(arr3d); colnames(mat)
+dimnames(arr3d); dimnames(mat)
+```
+
+### SEE ALSO
+```{r, eval = F}
+?matrix; ?array; ?class; ?dim; ?nrow; ?ncol; ?rownames; ?colnames
+```
+
+Arrays
+========================================================
+
+## Indexing
+
+```{r, eval = T}
+mat[1:2, 2:3]
+mat[,2]
+mat[,"zwei"]
+class(mat[,2])
+class(mat[,2, drop = F])
+```
+
+### SEE ALSO
+```{r, eval = F}
+?drop
+```
+
+Arrays
+========================================================
+
+## Combining
+
+```{r, eval = T}
+mat2 <- matrix(seq.int(2, 24, 2), nrow = 4,
+               dimnames = list(
+                 c("five", "six", "seven", "eight"),
+                 c("vier", "funf", "sechs")))
+rbind(mat, mat2)
+cbind(mat, mat2)
+```
+
+### SEE ALSO
+```{r, eval = F}
+?rbind; ?cbind; ?c
+```
+
+
+Arrays
+========================================================
+
+## Arithmetic
+
+```{r, eval = F}
+mat + mat2
+mat %*% c(1,2,3) # matrix multiplication
+mat / mat2
+t(mat) # transpose of the matrix
+diag(mat)
+diag(mat) <- 0 # set diagonal to zero
+```
+```{r, echo = F, warning = F, message = F}
+mat + mat2
+mat %*% c(1,2,3) # matrix multiplication
+mat / mat2
+```
+
+### SEE ALSO
+```{r, eval = F}
+?t; ?aperm; ?diag; ?`%*%`; ?`%o%`
+```
+
+Lists and data frames
+========================================================
+
+- An object consisting of an ordered collection of objects
+- There is no particular need for the components to be of the same mode or type
+
+```{r codelist, eval = F}
+Lst <- list(name = "John", wife = "Mary", no.children = 3,
+            child.ages = c(4,7,9))
+Lst$name # equal to Lst[[1]]
+Lst[[4]] # equal to Lst$child.ages
+Lst[["wife"]] # same as Lst$wife
+names(Lst)
+str(Lst)
+```
+```{r codelist, echo = F, warning = F, message = F}
+```
+
+### SEE ALSO
+```{r, eval = F}
+?list; ?names; ?str
+```
+
+Lists and data frames
+========================================================
+
+## Constructing and modifying lists
+
+```{r codelist2, eval = F}
+Lst <- list(pm10 = pm10, region = sta)
+str(Lst)
+head(as.data.frame(Lst))
+```
+```{r codelist2, echo = F, warning = F, message = F}
+```
+
+### SEE ALSO
+```{r, eval = F}
+?list; ?str; ?as.data.frame
+```
+
+Lists and data frames
+========================================================
+
+## Concatenating lists
+
+- An object consisting of an ordered collection of objects
+- There is no particular need for the components to be of the same mode or type
+
+```{r codelist3, eval = F}
+list.A <- list(name = "John", married = T, child.count = 3)
+list.B <- list(name = "Jenny", married = F)
+Lst <- c(list.A, list.B)
+str(Lst)
+head(as.data.frame(Lst))
+Lst$name # which one? John or Jenny
+```
+```{r codelist3, echo = F, warning = F, message = F}
+```
+
+Lists and data frames
+========================================================
+
+## Making data frames
+
+```{r codedf, eval = F}
+df <- data.frame(pm10 = pm10, region = sta)
+str(df)
+head(df)
+```
+```{r codedf, echo = F, warning = F, message = F}
+```
+
+### SEE ALSO
+```{r, eval = F}
+?list; ?str; ?as.data.frame
+```
