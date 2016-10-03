@@ -1,0 +1,9 @@
+100 a1 b1 T x
+200 a2 b2 T x
+300 a3 b3 F x
+400 a4 b4 F y
+500 a5 b5 F y
+600 a6 b6 T y
+700 a7 b7 T x
+800 a8 b8 T z
+900 a9 b9 T z

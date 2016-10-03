@@ -4,6 +4,7 @@ author: İsmail SEZEN
 date: `r Sys.Date()`
 width: 1440
 height: 1280
+font-family: 'Helvetica'
 
 Need Help?
 ========================================================
@@ -592,4 +593,247 @@ head(df)
 ### SEE ALSO
 ```{r, eval = F}
 ?list; ?str; ?as.data.frame
+```
+
+Reading data from files
+========================================================
+
+## read.table
+
+```{r, eval = T}
+dt <- read.table("data.txt")
+class(dt);str(dt)
+head(dt)
+```
+
+### SEE ALSO
+```{r, eval = F}
+?read.table
+```
+
+Reading data from files
+========================================================
+
+## read.table
+
+```{r, eval = T}
+dt <- read.table("data.txt", stringsAsFactors = T)
+class(dt);str(dt)
+head(dt)
+```
+
+### SEE ALSO
+```{r, eval = F}
+?read.table; ?factor
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+```{r, echo = F}
+pm10.csv <- readr::read_file("pm10.csv")
+```
+
+```{r, eval = F}
+dt.pm10 <- read.csv("pm10.csv", sep = ";") # or use read.csv2
+class(dt.pm10)
+str(dt.pm10)
+head(dt.pm10)
+```
+```{r, echo = F}
+dt.pm10 <- read.csv(textConnection(pm10.csv), sep = ";")
+class(dt.pm10)
+str(dt.pm10)
+head(dt.pm10)
+```
+
+### SEE ALSO
+```{r, eval = F}
+?read.csv; ?read.csv2
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+Set column classes at first. But note that we lost the time information. Why?
+
+```{r, eval = F}
+# Sys.setenv(TZ='GMT')
+dt.pm10 <- read.csv("pm10.csv", sep = ";",
+               colClasses = c("POSIXct", "numeric", "numeric",
+                              "numeric", "numeric", "numeric"))
+str(dt.pm10)
+head(dt.pm10)
+```
+```{r, echo = F}
+dt.pm10 <- read.csv(textConnection(pm10.csv), sep = ";",
+                    colClasses = c("POSIXct", "numeric", "numeric",
+                              "numeric", "numeric", "numeric"))
+str(dt.pm10)
+head(dt.pm10)
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+Because dates are not UTC. Daylight saving is a problem.
+
+```{r, eval = F}
+Sys.setenv(TZ='GMT')
+dt.pm10 <- read.csv("pm10.csv", sep = ";",
+               colClasses = c("POSIXct", "numeric", "numeric",
+                              "numeric", "numeric", "numeric"))
+# Sys.setenv(TZ='EET')
+head(dt.pm10)
+```
+```{r, echo = F}
+Sys.setenv(TZ='GMT')
+dt.pm10 <- read.csv(textConnection(pm10.csv), sep = ";",
+                    colClasses = c("POSIXct", "numeric", "numeric",
+                                   "numeric", "numeric", "numeric"))
+head(dt.pm10)
+```
+
+```{r, eval = T}
+dt.pm10$Date[2135:2140]
+Sys.setenv(TZ='EET')
+dt.pm10$Date[2135:2140]
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+Another approach to date time objects
+
+```{r, eval = F}
+dt.pm10 <- read.csv("pm10.csv", sep = ";")
+# read date column as character
+dt.pm10$Date <- strptime(dt.pm10$Date, "%Y-%m-%d %H:%M:%S")
+head(dt.pm10)
+dt.pm10$Date[2135:2141]
+```
+```{r, echo = F}
+# Sys.setenv(TZ='GMT')
+dt.pm10 <- read.csv(textConnection(pm10.csv), sep = ";")
+dt.pm10$Date <- strptime(dt.pm10$Date, "%Y-%m-%d %H:%M:%S")
+head(dt.pm10)
+dt.pm10$Date[2135:2141]
+```
+This time you will loose timezone information at daylight saving transitions.
+
+Reading data from files
+========================================================
+
+## Best practices
+
+- Do not struggle with excel files. Save them as `.csv`, then read.
+- Organize your csv file(s) before read.
+- Try to fix all possible error.
+- Convert your date-time information to `"%Y-%m-%d %H:%M:%S"` format.
+- Save data as `.rds` file and load it by `readRDS` function.
+- If you need to read similar multiple files, best create your own function
+  to read.
+
+Installing new R packages
+========================================================
+
+R has plenty of packages.
+
+```{r, eval = F}
+install(rpart)
+install(ggplot2)
+```
+
+Loading data from other R packages
+========================================================
+
+Almost all of the packages comes with their own sample data.
+
+```{r, eval = F}
+data(package="rpart")
+data(Puromycin, package="datasets")
+?airquality
+edit(airquality) # edit data if you need
+```
+
+If a package has been attached by library, its datasets are automatically included in the
+search.
+
+### SEE ALSO
+```{r, eval = F}
+?data; ?save; ?dput; ?saveRDS; ?edit
+```
+
+Loops and control flow
+========================================================
+
+## Conditional execution: if statements
+
+```{r, eval = F}
+if (expr_1) expr_2 else expr_3
+```
+
+The “short-circuit” operators && and || are often used as part of the
+condition in an if statement. Whereas & and | apply element-wise to vectors,
+&& and || apply to vectors of length one, and only evaluate their second
+argument if necessary.
+
+```{r}
+age <- 12
+if (age < 13) {
+  print("Watch this with your Mom")
+} else {
+  print("Enjoy the movie!")
+}
+```
+
+```{r}
+age <- 21
+print(ifelse(age < 13, "Watch this with your Mom", "Enjoy the movie!"))
+```
+
+### SEE ALSO
+```{r, eval = F}
+?`if`; ?ifelse
+```
+
+Loops and control flow
+========================================================
+
+## for loops, repeat and while
+
+```{r, eval = F}
+if (expr_1) expr_2 else expr_3
+```
+
+The “short-circuit” operators && and || are often used as part of the
+condition in an if statement. Whereas & and | apply element-wise to vectors,
+&& and || apply to vectors of length one, and only evaluate their second
+argument if necessary.
+
+```{r}
+age <- 12
+if (age < 13) {
+  print("Watch this with your Mom")
+} else {
+  print("Enjoy the movie!")
+}
+```
+
+```{r}
+age <- 21
+print(ifelse(age < 13, "Watch this with your Mom", "Enjoy the movie!"))
+```
+
+### SEE ALSO
+```{r, eval = F}
+?`if`; ?ifelse
 ```

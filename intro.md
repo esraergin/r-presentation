@@ -4,6 +4,7 @@ author: İsmail SEZEN
 date: 2016-10-03
 width: 1440
 height: 1280
+font-family: 'Helvetica'
 
 Need Help?
 ========================================================
@@ -1009,4 +1010,393 @@ head(df)
 
 ```r
 ?list; ?str; ?as.data.frame
+```
+
+Reading data from files
+========================================================
+
+## read.table
+
+
+```r
+dt <- read.table("data.txt")
+class(dt);str(dt)
+```
+
+```
+[1] "data.frame"
+```
+
+```
+'data.frame':	9 obs. of  5 variables:
+ $ V1: int  100 200 300 400 500 600 700 800 900
+ $ V2: chr  "a1" "a2" "a3" "a4" ...
+ $ V3: chr  "b1" "b2" "b3" "b4" ...
+ $ V4: logi  TRUE TRUE FALSE FALSE FALSE TRUE ...
+ $ V5: chr  "x" "x" "x" "y" ...
+```
+
+```r
+head(dt)
+```
+
+```
+   V1 V2 V3    V4 V5
+1 100 a1 b1  TRUE  x
+2 200 a2 b2  TRUE  x
+3 300 a3 b3 FALSE  x
+4 400 a4 b4 FALSE  y
+5 500 a5 b5 FALSE  y
+6 600 a6 b6  TRUE  y
+```
+
+### SEE ALSO
+
+```r
+?read.table
+```
+
+Reading data from files
+========================================================
+
+## read.table
+
+
+```r
+dt <- read.table("data.txt", stringsAsFactors = T)
+class(dt);str(dt)
+```
+
+```
+[1] "data.frame"
+```
+
+```
+'data.frame':	9 obs. of  5 variables:
+ $ V1: int  100 200 300 400 500 600 700 800 900
+ $ V2: Factor w/ 9 levels "a1","a2","a3",..: 1 2 3 4 5 6 7 8 9
+ $ V3: Factor w/ 9 levels "b1","b2","b3",..: 1 2 3 4 5 6 7 8 9
+ $ V4: logi  TRUE TRUE FALSE FALSE FALSE TRUE ...
+ $ V5: Factor w/ 3 levels "x","y","z": 1 1 1 2 2 2 1 3 3
+```
+
+```r
+head(dt)
+```
+
+```
+   V1 V2 V3    V4 V5
+1 100 a1 b1  TRUE  x
+2 200 a2 b2  TRUE  x
+3 300 a3 b3 FALSE  x
+4 400 a4 b4 FALSE  y
+5 500 a5 b5 FALSE  y
+6 600 a6 b6  TRUE  y
+```
+
+### SEE ALSO
+
+```r
+?read.table; ?factor
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+
+
+
+```r
+dt.pm10 <- read.csv("pm10.csv", sep = ";") # or use read.csv2
+class(dt.pm10)
+str(dt.pm10)
+head(dt.pm10)
+```
+
+```
+[1] "data.frame"
+```
+
+```
+'data.frame':	43848 obs. of  6 variables:
+ $ Date: chr  "2008-01-01 00:00:00" "2008-01-01 01:00:00" "2008-01-01 02:00:00" "2008-01-01 03:00:00" ...
+ $ sta1: num  NA NA NA NA NA 18.1 NA 13.1 NA 28.2 ...
+ $ sta2: num  36.6 30.5 33.3 NA 35 29.5 17 39.8 43.5 66.5 ...
+ $ sta3: num  56.9 45.8 25.3 20.4 35.1 23.7 44 47.2 NA 38.4 ...
+ $ sta4: num  NA NA NA NA NA NA NA NA NA NA ...
+ $ sta5: num  51.6 40.4 78.9 39.4 54.6 24.3 16.8 NA 49.7 20.3 ...
+```
+
+```
+                 Date sta1 sta2 sta3 sta4 sta5
+1 2008-01-01 00:00:00   NA 36.6 56.9   NA 51.6
+2 2008-01-01 01:00:00   NA 30.5 45.8   NA 40.4
+3 2008-01-01 02:00:00   NA 33.3 25.3   NA 78.9
+4 2008-01-01 03:00:00   NA   NA 20.4   NA 39.4
+5 2008-01-01 04:00:00   NA 35.0 35.1   NA 54.6
+6 2008-01-01 05:00:00 18.1 29.5 23.7   NA 24.3
+```
+
+### SEE ALSO
+
+```r
+?read.csv; ?read.csv2
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+Set column classes at first. But note that we lost the time information. Why?
+
+
+```r
+# Sys.setenv(TZ='GMT')
+dt.pm10 <- read.csv("pm10.csv", sep = ";",
+               colClasses = c("POSIXct", "numeric", "numeric",
+                              "numeric", "numeric", "numeric"))
+str(dt.pm10)
+head(dt.pm10)
+```
+
+```
+'data.frame':	43848 obs. of  6 variables:
+ $ Date: POSIXct, format: "2008-01-01" "2008-01-01" ...
+ $ sta1: num  NA NA NA NA NA 18.1 NA 13.1 NA 28.2 ...
+ $ sta2: num  36.6 30.5 33.3 NA 35 29.5 17 39.8 43.5 66.5 ...
+ $ sta3: num  56.9 45.8 25.3 20.4 35.1 23.7 44 47.2 NA 38.4 ...
+ $ sta4: num  NA NA NA NA NA NA NA NA NA NA ...
+ $ sta5: num  51.6 40.4 78.9 39.4 54.6 24.3 16.8 NA 49.7 20.3 ...
+```
+
+```
+        Date sta1 sta2 sta3 sta4 sta5
+1 2008-01-01   NA 36.6 56.9   NA 51.6
+2 2008-01-01   NA 30.5 45.8   NA 40.4
+3 2008-01-01   NA 33.3 25.3   NA 78.9
+4 2008-01-01   NA   NA 20.4   NA 39.4
+5 2008-01-01   NA 35.0 35.1   NA 54.6
+6 2008-01-01 18.1 29.5 23.7   NA 24.3
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+Because dates are not UTC. Daylight saving is a problem.
+
+
+```r
+Sys.setenv(TZ='GMT')
+dt.pm10 <- read.csv("pm10.csv", sep = ";",
+               colClasses = c("POSIXct", "numeric", "numeric",
+                              "numeric", "numeric", "numeric"))
+# Sys.setenv(TZ='EET')
+head(dt.pm10)
+```
+
+```
+                 Date sta1 sta2 sta3 sta4 sta5
+1 2008-01-01 00:00:00   NA 36.6 56.9   NA 51.6
+2 2008-01-01 01:00:00   NA 30.5 45.8   NA 40.4
+3 2008-01-01 02:00:00   NA 33.3 25.3   NA 78.9
+4 2008-01-01 03:00:00   NA   NA 20.4   NA 39.4
+5 2008-01-01 04:00:00   NA 35.0 35.1   NA 54.6
+6 2008-01-01 05:00:00 18.1 29.5 23.7   NA 24.3
+```
+
+
+```r
+dt.pm10$Date[2135:2140]
+```
+
+```
+[1] "2008-03-29 22:00:00 GMT" "2008-03-29 23:00:00 GMT"
+[3] "2008-03-30 00:00:00 GMT" "2008-03-30 01:00:00 GMT"
+[5] "2008-03-30 02:00:00 GMT" "2008-03-30 03:00:00 GMT"
+```
+
+```r
+Sys.setenv(TZ='EET')
+dt.pm10$Date[2135:2140]
+```
+
+```
+[1] "2008-03-30 00:00:00 EET"  "2008-03-30 01:00:00 EET" 
+[3] "2008-03-30 02:00:00 EET"  "2008-03-30 04:00:00 EEST"
+[5] "2008-03-30 05:00:00 EEST" "2008-03-30 06:00:00 EEST"
+```
+
+Reading data from files
+========================================================
+
+## read.csv
+
+Another approach to date time objects
+
+
+```r
+dt.pm10 <- read.csv("pm10.csv", sep = ";")
+# read date column as character
+dt.pm10$Date <- strptime(dt.pm10$Date, "%Y-%m-%d %H:%M:%S")
+head(dt.pm10)
+dt.pm10$Date[2135:2141]
+```
+
+```
+                 Date sta1 sta2 sta3 sta4 sta5
+1 2008-01-01 00:00:00   NA 36.6 56.9   NA 51.6
+2 2008-01-01 01:00:00   NA 30.5 45.8   NA 40.4
+3 2008-01-01 02:00:00   NA 33.3 25.3   NA 78.9
+4 2008-01-01 03:00:00   NA   NA 20.4   NA 39.4
+5 2008-01-01 04:00:00   NA 35.0 35.1   NA 54.6
+6 2008-01-01 05:00:00 18.1 29.5 23.7   NA 24.3
+```
+
+```
+[1] "2008-03-29 22:00:00 EET"  "2008-03-29 23:00:00 EET" 
+[3] "2008-03-30 00:00:00 EET"  "2008-03-30 01:00:00 EET" 
+[5] "2008-03-30 02:00:00 EET"  "2008-03-30 03:00:00"     
+[7] "2008-03-30 04:00:00 EEST"
+```
+This time you will loose timezone information at daylight saving transitions.
+
+Reading data from files
+========================================================
+
+## Best practices
+
+- Do not struggle with excel files. Save them as `.csv`, then read.
+- Organize your csv file(s) before read.
+- Try to fix all possible error.
+- Convert your date-time information to `"%Y-%m-%d %H:%M:%S"` format.
+- Save data as `.rds` file and load it by `readRDS` function.
+- If you need to read similar multiple files, best create your own function
+  to read.
+
+Installing new R packages
+========================================================
+
+R has plenty of packages.
+
+
+```r
+install(rpart)
+install(ggplot2)
+```
+
+Loading data from other R packages
+========================================================
+
+Almost all of the packages comes with their own sample data.
+
+
+```r
+data(package="rpart")
+data(Puromycin, package="datasets")
+?airquality
+edit(airquality) # edit data if you need
+```
+
+If a package has been attached by library, its datasets are automatically included in the
+search.
+
+### SEE ALSO
+
+```r
+?data; ?save; ?dput; ?saveRDS; ?edit
+```
+
+Loops and control flow
+========================================================
+
+## Conditional execution: if statements
+
+
+```r
+if (expr_1) expr_2 else expr_3
+```
+
+The “short-circuit” operators && and || are often used as part of the
+condition in an if statement. Whereas & and | apply element-wise to vectors,
+&& and || apply to vectors of length one, and only evaluate their second
+argument if necessary.
+
+
+```r
+age <- 12
+if (age < 13) {
+  print("Watch this with your Mom")
+} else {
+  print("Enjoy the movie!")
+}
+```
+
+```
+[1] "Watch this with your Mom"
+```
+
+
+```r
+age <- 21
+print(ifelse(age < 13, "Watch this with your Mom", "Enjoy the movie!"))
+```
+
+```
+[1] "Enjoy the movie!"
+```
+
+### SEE ALSO
+
+```r
+?`if`; ?ifelse
+```
+
+Loops and control flow
+========================================================
+
+## for loops, repeat and while
+
+
+```r
+if (expr_1) expr_2 else expr_3
+```
+
+The “short-circuit” operators && and || are often used as part of the
+condition in an if statement. Whereas & and | apply element-wise to vectors,
+&& and || apply to vectors of length one, and only evaluate their second
+argument if necessary.
+
+
+```r
+age <- 12
+if (age < 13) {
+  print("Watch this with your Mom")
+} else {
+  print("Enjoy the movie!")
+}
+```
+
+```
+[1] "Watch this with your Mom"
+```
+
+
+```r
+age <- 21
+print(ifelse(age < 13, "Watch this with your Mom", "Enjoy the movie!"))
+```
+
+```
+[1] "Enjoy the movie!"
+```
+
+### SEE ALSO
+
+```r
+?`if`; ?ifelse
 ```
