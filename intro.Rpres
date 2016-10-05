@@ -9,7 +9,8 @@ font-family: 'Helvetica'
 Need Help?
 ========================================================
 
-- [An introduction to R](http://cran.us.r-project.org/doc/manuals/R-intro.pdf) (Book)
+- [An introduction to R](http://cran.us.r-project.org/doc/manuals/R-intro.pdf)
+  (Book)
 - [Ask to google](google.com) (Best)
 - [R-help maling list](https://www.r-project.org/mail.html)
   - [Subscribe](https://stat.ethz.ch/mailman/listinfo/r-help)
@@ -376,7 +377,9 @@ Objects
 
 ```{r}
 digit <- 0:9
-name <- c("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+name <- c("zero", "one", "two", "three",
+          "four", "five", "six", "seven",
+          "eight", "nine")
 df <- data.frame(digit, name)
 head(df)
 str(df)
@@ -521,7 +524,8 @@ Lists and data frames
 ========================================================
 
 - An object consisting of an ordered collection of objects
-- There is no particular need for the components to be of the same mode or type
+- There is no particular need for the components to be of the
+  same mode or type
 
 ```{r codelist, eval = F}
 Lst <- list(name = "John", wife = "Mary", no.children = 3,
@@ -562,9 +566,6 @@ Lists and data frames
 ========================================================
 
 ## Concatenating lists
-
-- An object consisting of an ordered collection of objects
-- There is no particular need for the components to be of the same mode or type
 
 ```{r codelist3, eval = F}
 list.A <- list(name = "John", married = T, child.count = 3)
@@ -727,7 +728,8 @@ dt.pm10$Date <- strptime(dt.pm10$Date, "%Y-%m-%d %H:%M:%S")
 head(dt.pm10)
 dt.pm10$Date[2135:2141]
 ```
-This time you will loose timezone information at daylight saving transitions.
+This time you will loose timezone information at daylight
+saving transitions.
 
 Reading data from files
 ========================================================
@@ -764,8 +766,8 @@ data(Puromycin, package="datasets")
 edit(airquality) # edit data if you need
 ```
 
-If a package has been attached by library, its datasets are automatically included in the
-search.
+If a package has been attached by library, its datasets are
+automatically included in the search.
 
 ### SEE ALSO
 ```{r, eval = F}

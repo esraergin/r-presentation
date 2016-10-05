@@ -1,0 +1,15 @@
+---
+title: "R Presentations"
+output:
+  html_document:
+    toc: false
+    fig_caption: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Click the links below to see presentations;
+
+[Introduction to R](intro-rpubs.html)
