@@ -1,5 +1,7 @@
 ---
 title: "R Presentations"
+author: ismail sezen
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
     toc: false
@@ -12,4 +14,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Click the links below to see presentations;
 
-[Introduction to R](intro-rpubs.html)
+- [Introduction to R](intro-rpubs.html)
+
+## Data
+
+- [data.txt](data.txt)
+- [pm10.csv](pm10.csv)
