@@ -748,8 +748,8 @@ Installing new R packages
 R has plenty of packages.
 
 ```{r, eval = F}
-install(rpart)
-install(ggplot2)
+install.packages(rpart)
+install.packages(ggplot2, partykit)
 ```
 
 Loading data from other R packages
